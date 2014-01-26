@@ -1,0 +1,26 @@
+This script takes a bunch of single-line records (tab-separated), does some
+matching, and emits a single vcf file suitable to import as an address book
+on sites like Shutterfly.
+
+Usage:
+
+./xmascsv2vcf.pl < christmas_dump_2013_12_12_04.txt  > xmas-2013-12-12-01.vcard
+
+When more than one contact lives at the same address, IF the two contacts have
+the same last name, it combines them.  For example, if Joe and Jane
+Contactsworth live at 111 P St #31337, it will emit the following:
+
+BEGIN:VCARD
+VERSION:3.0
+N:Family;The Contactsworth;;;
+FN:The Contactsworth Family
+ADR;type=HOME:;;111 P St #31337;Atlanta;GA;95128;
+END:VCARD
+
+If more than one contact lives at an address but they have different last
+names (e.g., Foo and Bar), the script makes the following style of family name:
+
+...
+N:Family;The Foo / Bar;;;
+FN:The Foo / Bar Family
+...
